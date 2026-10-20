@@ -1,0 +1,4 @@
+const mongoose = require('mongoose');
+const schema = new mongoose.Schema({ movieName:{type:String,required:true,trim:true,minlength:2,maxlength:200,index:true}, description:{type:String,required:true,minlength:10}, genres:{type:[String],required:true,validate:v=>v.length>0}, language:{type:String,default:'Hindi',index:true}, releaseDate:{type:Date,required:true}, runtime:{type:Number,required:true,min:1}, certification:{type:String,default:'U/A'}, cast:[String], media:[{url:String,kind:{type:String,enum:['poster','backdrop','trailer','image'],default:'poster'}}], rating:{type:Number,min:0,max:5,default:0}, createdBy:{type:mongoose.Schema.Types.ObjectId,ref:'User'} },{timestamps:true});
+schema.index({movieName:'text',description:'text',genres:'text'});
+module.exports=mongoose.model('Movie',schema);

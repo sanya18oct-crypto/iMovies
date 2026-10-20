@@ -1,0 +1,1 @@
+const r=require('express').Router(),c=require('../controllers/favoriteController'),{fetchUser}=require('../middlewares/fetchUser'),ah=require('../utils/asyncHandler');r.use(fetchUser);r.get('/',ah(c.list));r.post('/',ah(c.add));r.delete('/:movieId',ah(c.remove));module.exports=r;

@@ -1,0 +1,23 @@
+$primary: #F6B73C;
+$body-bg: #1B0F24;
+$body-color: #ECE8F2;
+$font-family-sans-serif: "Figtree Variable", system-ui, sans-serif;
+$headings-font-family: "Bricolage Grotesque Variable", system-ui, sans-serif;
+$border-radius: 6px;
+$border-radius-lg: 12px;
+$btn-color: #1B0F24;
+$input-bg: #2A1535;
+$input-color: #ECE8F2;
+$input-border-color: rgba(167,157,184,.3);
+$input-focus-border-color: #F6B73C;
+$input-focus-box-shadow: 0 0 0 .2rem rgba(246,183,60,.14);
+$card-bg: #2A1535;
+$modal-content-bg: #2A1535;
+$dropdown-bg: #2A1535;
+$dropdown-link-color: #ECE8F2;
+$dropdown-link-hover-bg: #3A2048;
+$dropdown-link-hover-color: #F6B73C;
+@import "bootstrap/scss/bootstrap";
+:root{--im-auditorium:#1B0F24;--im-velvet:#2A1535;--im-velvet-hi:#3A2048;--im-curtain:#7A1F3D;--im-marquee:#F6B73C;--im-silver:#ECE8F2;--im-dusk:#A79DB8;--im-success:#4CC9A0;--im-danger:#FF6B6B;--im-line:rgba(236,232,242,.08);--im-font-display:"Bricolage Grotesque Variable",system-ui,sans-serif;--im-font-body:"Figtree Variable",system-ui,sans-serif;}
+:focus-visible{outline:2px solid var(--im-marquee);outline-offset:3px;}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}

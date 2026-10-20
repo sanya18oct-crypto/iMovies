@@ -1,0 +1,1 @@
+import React from 'react';import {Navigate} from 'react-router-dom';import {useAuth} from '../../context/AuthContext';import {PageLoader} from '../Loader';export default function AdminProtection({children}){const{user,ready}=useAuth();if(!ready)return <PageLoader/>;return user?.role==='admin'?children:<Navigate to="/admin-login" replace/>;}

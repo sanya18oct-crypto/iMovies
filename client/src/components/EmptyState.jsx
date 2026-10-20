@@ -1,0 +1,1 @@
+import React from 'react';import {Link} from 'react-router-dom';export default function EmptyState({title='Nothing here yet',message='Try another search or come back later.',action='Browse movies',to='/home'}){return <div className="empty-state"><span className="empty-icon">✦</span><h3>{title}</h3><p>{message}</p><Link className="btn btn-marquee" to={to}>{action}</Link></div>}

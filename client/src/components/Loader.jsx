@@ -1,0 +1,1 @@
+import React from 'react';export function PageLoader(){return <div className="page-loader" role="status" aria-label="Loading"><span className="loader-orbit"/><span>Getting the seats ready…</span></div>}export function PosterSkeleton(){return <div className="poster-skeleton"/>}export function RowSkeleton(){return <div className="skeleton-row"/>}

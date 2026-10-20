@@ -1,0 +1,1 @@
+const r=require('express').Router(),c=require('../controllers/paymentController'),{fetchUser}=require('../middlewares/fetchUser'),ah=require('../utils/asyncHandler');r.post('/razorpay/order',fetchUser,ah(c.order));r.post('/razorpay/verify',fetchUser,ah(c.verify));module.exports=r;

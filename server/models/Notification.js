@@ -1,0 +1,1 @@
+const mongoose=require('mongoose'); const schema=new mongoose.Schema({user:{type:mongoose.Schema.Types.ObjectId,ref:'User',required:true},type:{type:String,required:true},message:{type:String,required:true},sentAt:Date,readAt:Date},{timestamps:true}); module.exports=mongoose.model('Notification',schema);

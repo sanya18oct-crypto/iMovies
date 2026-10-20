@@ -1,0 +1,1 @@
+const r=require('express').Router(),c=require('../controllers/bookingController'),{fetchUser,requireRole}=require('../middlewares/fetchUser'),ah=require('../utils/asyncHandler');r.use(fetchUser);r.get('/',ah(c.mine));r.post('/',ah(c.create));r.post('/:id/cancel',ah(c.cancel));r.get('/admin/all',requireRole('admin'),ah(c.all));module.exports=r;

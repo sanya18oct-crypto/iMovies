@@ -1,0 +1,1 @@
+import React from 'react';export default function Footer(){return <footer className="site-footer"><div className="container im-container footer-inner"><span className="brand"><span className="brand-mark">✦</span>IMovies<span className="brand-dot">.</span></span><span>Movie ticket booking made simple.</span><span>Made for your next movie night.</span></div></footer>}

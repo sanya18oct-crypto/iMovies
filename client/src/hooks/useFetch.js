@@ -1,0 +1,2 @@
+import {useEffect,useState} from 'react';import api from '../utils/api';
+export default function useFetch(url,config={}){const [state,setState]=useState({resData:null,loading:Boolean(url),error:null});useEffect(()=>{if(!url){setState({resData:null,loading:false,error:null});return;}let active=true;setState(s=>({...s,loading:true,error:null}));api.get(url,config).then(res=>active&&setState({resData:res,loading:false,error:null})).catch(error=>active&&setState({resData:null,loading:false,error:error.message}));return()=>{active=false};},[url]);return state;}

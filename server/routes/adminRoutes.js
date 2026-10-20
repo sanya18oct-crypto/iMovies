@@ -1,0 +1,1 @@
+const r=require('express').Router(),c=require('../controllers/adminController'),{fetchUser,requireRole}=require('../middlewares/fetchUser'),ah=require('../utils/asyncHandler');r.use(fetchUser,requireRole('admin'));r.get('/dashboard',ah(c.dashboard));r.get('/users',ah(c.users));module.exports=r;
