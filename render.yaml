@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: imovies-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_INVITE_CODE
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        value: https://sanya18oct-crypto.github.io,http://localhost:5173
