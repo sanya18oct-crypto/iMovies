@@ -21,7 +21,7 @@ To create an admin, set `ADMIN_INVITE_CODE` in `server/.env`, then use the Admin
 - Seat map by tier, booking creation with server-side availability validation, booking history and cancellation
 - Favorites and reviews
 - Admin dashboard data and booking overview
-- Optional Razorpay order creation and signature verification; safe fallback when keys are absent
+- Optional Razorpay UPI Checkout with server-side order creation and signature verification; Checkout opens UPI intent on supported phones and displays a QR code on desktop, with a safe fallback when keys are absent
 - Optional SMTP email confirmation; scheduled cleanup of expired pending bookings
 - Rate limiting, helmet headers, CORS configuration, request logging, centralized errors, pagination
 - Dark “House lights” UI tokens, responsive navigation, accessible seat selection and loading/empty/error states
@@ -33,14 +33,14 @@ All routes are prefixed `/api`.
 - `/movie` GET/POST and `/movie/:id` GET/PATCH/DELETE
 - `/theatre` GET/POST and `/theatre/:id` PATCH/DELETE
 - `/shows` GET/POST and `/shows/:id` GET/PATCH/DELETE; `/shows/movie/:movieId`
-- `/bookings` GET/POST; `/bookings/:id/cancel`; `/bookings/admin/all`
+- `/bookings` GET/POST; `/bookings/:id/cancel`; `/bookings/admin/all`; `/bookings/admin/:id/mark-paid` (admin manual UPI verification)
 - `/favorite` GET/POST and `/favorite/:movieId` DELETE
 - `/review/movie/:movieId` GET; `/review` POST; `/review/:id` DELETE (owner/admin)
 - `/payments/razorpay/order`, `/payments/razorpay/verify`
 - `/admin/dashboard`, `/admin/users`
 
 ## Payment and seat consistency notes
-Seat booking is validated and persisted server-side, and a unique show/seat constraint prevents duplicate booking records. For high-traffic production deployments, use a dedicated seat-hold collection with TTL, MongoDB transactions on a replica set, idempotent payment webhooks, gateway reconciliation, and a distributed job queue. Razorpay credentials and SMTP settings are optional for local development. Never mark a payment successful based only on a client-side result; verify the Razorpay signature on the server.
+Seat booking is validated and persisted server-side, and a unique show/seat constraint prevents duplicate booking records. For high-traffic production deployments, use a dedicated seat-hold collection with TTL, MongoDB transactions on a replica set, idempotent payment webhooks, gateway reconciliation, and a distributed job queue. Razorpay credentials and SMTP settings are optional for local development. Set a matching Razorpay Key ID and Key Secret from the same Test or Live mode in `server/.env`; Checkout uses Razorpay's merchant account and its configured settlement bank account, not a personal UPI ID. UPI intent is available on supported phones and Checkout displays a QR code on desktop. Never mark a payment successful based only on a client-side result; verify the Razorpay signature on the server. Admins can manually mark a booking paid only after independently verifying an external UPI transfer; the app records the transaction reference and verifying admin but does not validate the transfer with a bank.
 
 ## Tests
 `cd server && npm test` runs API utility/model-level tests that do not require a running database. For end-to-end API tests, configure a disposable MongoDB test database and run the app.
