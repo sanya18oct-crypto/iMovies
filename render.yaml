@@ -17,4 +17,20 @@ services:
       - key: ADMIN_INVITE_CODE
         generateValue: true
       - key: CLIENT_ORIGIN
-        value: https://sanya18oct-crypto.github.io,http://localhost:5173
+        fromService:
+          type: web
+          name: imovies-client
+          property: host
+  - type: web
+    name: imovies-client
+    runtime: static
+    plan: free
+    rootDir: client
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_HOST
+        fromService:
+          type: web
+          name: imovies-api
+          property: host

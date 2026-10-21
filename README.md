@@ -17,16 +17,16 @@ To create an admin, set `ADMIN_INVITE_CODE` in `server/.env`, then use the Admin
 
 ## Live demo deployment
 
-The live client is deployed to GitHub Pages; the API runs on Render and the database on MongoDB Atlas. GitHub Pages cannot run the Express server or MongoDB.
+Deploy both the React client and Express API to Render with the root `render.yaml` Blueprint; use MongoDB Atlas for the database. GitHub Pages cannot run the Express server or MongoDB.
 
-1. Create a MongoDB Atlas database and allow network access from Render (for a demo, `0.0.0.0/0` is easiest; use a restricted network policy for production). Create a database user and copy its connection string.
-2. In Render, create a Blueprint from this repository using `render.yaml`. Set `MONGO_URI` to the Atlas connection string. Render generates `JWT_SECRET` and `ADMIN_INVITE_CODE`. After deployment, copy the API service URL, for example `https://imovies-api.onrender.com`.
-3. In GitHub, open **Settings → Secrets and variables → Actions → Variables**, create `VITE_API_URL` with the API URL followed by `/api` (for example `https://imovies-api.onrender.com/api`).
-4. In Render, set the API service's `CLIENT_ORIGIN` to `https://sanya18oct-crypto.github.io` (and any local development origin needed), then redeploy the API.
-5. In GitHub, open **Settings → Pages** and set the build/deployment source to **GitHub Actions**. Push to `main` or run the **Deploy client to GitHub Pages** workflow manually.
-6. Once the workflow succeeds, the demo URL is `https://sanya18oct-crypto.github.io/iMovies/`. Routes use hash URLs (for example `/#/home`) so refresh/deep links work on Pages.
+1. Create a MongoDB Atlas account and a free cluster. In **Database Access**, create a database user and save its password. In **Network Access**, add `0.0.0.0/0` so Render can connect (for a public production service, use a more restrictive policy if possible).
+2. In Atlas, choose **Connect → Drivers**, copy the Node.js connection string, replace `<password>` with the database user's password, and include the database name `Imovies` before any query string. Keep the URI private.
+3. Open the Render dashboard and choose **New → Blueprint**. Connect the GitHub repository and select the branch containing `render.yaml`.
+4. When Render prompts for `MONGO_URI`, paste the Atlas URI. Keep the generated `JWT_SECRET` and `ADMIN_INVITE_CODE` private, then create/deploy the Blueprint. It creates `imovies-api` and `imovies-client`; service references connect the API CORS origin and client API host automatically.
+5. Wait for both services to show **Live**. Open the `imovies-client` service URL shown in Render; this is the public demo link. Check `https://<your-api-host>/health` to confirm the API and database are connected.
+6. Register an admin at `/admin-register` using the private invite code from the API service's Render environment, then sign in and add movies, theatres, and shows.
 
-The free Render API may sleep when idle, so the first request can take a little while. Configure Razorpay credentials in Render only if you want to test payments; never put server secrets in GitHub Pages variables or the client bundle.
+The free Render API may sleep when idle, so its first request can take a little while. Add Razorpay credentials in the API service's Render environment only if needed; never put server secrets in the client service or repository.
 
 ## Features implemented
 - User registration/login, bcrypt password hashing, JWT auth, role-protected admin routes

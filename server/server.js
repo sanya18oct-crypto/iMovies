@@ -16,7 +16,14 @@ const app = express();
 app.disable('x-powered-by');
 app.use(helmet());
 app.use(compression());
-app.use(cors({ origin: process.env.CLIENT_ORIGIN ? process.env.CLIENT_ORIGIN.split(',').map(origin => origin.trim()) : 'http://localhost:5173', credentials: true }));
+const configuredOrigins = process.env.CLIENT_ORIGIN
+  ? process.env.CLIENT_ORIGIN.split(',').map(origin => {
+      const value = origin.trim();
+      return value.startsWith('http://') || value.startsWith('https://') ? value : `https://${value}`;
+    })
+  : [];
+if (process.env.NODE_ENV !== 'production') configuredOrigins.push('http://localhost:5173');
+app.use(cors({ origin: configuredOrigins.length ? configuredOrigins : 'http://localhost:5173', credentials: true }));
 app.use(express.json({ limit: '1mb' }));
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: 'draft-7', legacyHeaders: false }));
